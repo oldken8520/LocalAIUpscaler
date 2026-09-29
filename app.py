@@ -1,4 +1,5 @@
 import os, subprocess, threading, tempfile, shutil
+from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
