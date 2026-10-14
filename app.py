@@ -41,8 +41,13 @@ class App(tk.Tk):
         out=filedialog.askdirectory(title="选择输出文件夹")
         if not out: return
         threading.Thread(target=self.run,args=(out,),daemon=True).start()
-    def call(self, inp, outp, s):
-        cmd=[ENGINE,"-i",inp,"-o",outp,"-n",self.model.get(),"-s",str(s),"-f","png"]
+def call(self, inp, outp, s):
+    model = self.model.get()
+
+    if model == "realesrgan-x4plus-anime" and s == 2:
+        model = "realesr-animevideov3"
+
+    cmd=[ENGINE,"-i",inp,"-o",outp,"-n",model,"-s",str(s),"-f","png"]
         p=subprocess.run(cmd,creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
         if p.returncode: raise RuntimeError("Real-ESRGAN 返回错误")
     def run(self,outdir):
